@@ -5,13 +5,17 @@
 // echo '<pre>';
 // var_dump($_GET);
 // echo '</pre>';
-$nome = isset($_GET['nome'])?$_GET['nome']:'';
-$sobrenome = isset($_GET['sobrenome'])?$_GET['sobrenome']:'';
+$nome = isset($_POST['nome'])?$_POST['nome']:'';
+$sobrenome = isset($_POST['sobrenome'])?$_POST['sobrenome']:'';
 
-if (isset($_GET['nome'])){
-    echo 'Olá '.$_GET['nome'];
+if (isset($_POST['nome'])){
+    echo 'Olá '.$_POST['nome'];
 }else
     header('location: contato.html');
 
+    $dados = array('Nome'=>$nome,'Sobrenome'=>$sobrenome);
+
+   $arquivo = fopen('contatos.txt','w+');
+   fwrite($arquivo,json_encode($dados));
 
 ?> 
