@@ -17,5 +17,5 @@ if (isset($_POST['nome'])){
 
    $arquivo = fopen('contatos.txt','w+');
    fwrite($arquivo,json_encode($dados));
-
+   fclose($arquivo);
 ?> 
