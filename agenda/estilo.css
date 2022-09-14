@@ -49,3 +49,12 @@
         border: 1px dotted blue;
     }
 }
+
+#texto {
+    position: absolute;
+    left :600px;
+}
+
+#nomecorreto{
+    display: none;
+}
