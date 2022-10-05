@@ -1,3 +1,7 @@
+<?php
+  include_once "acao.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,21 +16,10 @@
     <script src="script.js"></script>
 </head>
 <body>
-    <input type="text" id="nome" value="">
-    <input type="text" id="sobrenome" value="Leite">
-    <input type="button" id="btn" value="Enviar">
-    <span id="texto"></span>
-    <form action="" id="nomecorret  o">
-        <fieldset>
-            <legend>Texto</legend>
-            <input type="text" id="novo">
-    </fieldset>
-    </form>
-    <br><br>
+    <h1>Meus Contatos</h1>
     <nav> <!-- menu -->
         <ul class="menu">
-            <li id="cadastrar" class="itemenu"><a href="contato.html">Cadastrar</a></li>
-            <li>Listar</li>
+            <li id="cadastrar" class="itemenu"><a href="contato.php">Cadastrar</a></li>
             <li><a href="extras/sobre.html">Sobre</a></li>
             <li>Favoritos</li>
         </ul>
@@ -35,20 +28,19 @@
         <table class="table lista-contatos">
             <thead>
                 <tr>
-                    <th>Nome</th><th>Telefone</th><th>Alterar</th><th>Excluir</th>
+                    <th>Id</th><th>Nome</th><th>Sobrenome</th><th>Telefone</th><th>Alterar</th><th>Excluir</th>
                 </tr>
-            <tr>
-                <td>João</td><td>4798989999</td><td>Alt</td><td>Exc</td>
-            </tr>
-            <tr>
-                <td>João</td><td>4798989999</td><td>Alt</td><td>Exc</td>
-            </tr>
-            <tr>
-                <td>João</td><td>4798989999</td><td>Alt</td><td>Exc</td>
-            </tr>
+            </thead>
+            <?php
+            $dados = carregaDoArquivoParaVetor();
+            foreach($dados as $contato){
+                $alterar = "<a href='contato.php?acao=editar&id=".$contato['id']."'>Alt</a>";
+                $excluir = "<a href='#' onclick=excluir('index.php?acao=excluir&id=".$contato['id']."')>Exc</a>";
+                echo "<tr><td>".$contato['id']."</td><td>".$contato['nome']."</td><td>".$contato['sobrenome']."</td><td>".$contato['telefone']."</td><td>".$alterar."</td><td>".$excluir."</td></tr>";
+            }
+            ?>
         </table>
     </section>
-    <span id="teste">Texto</span>
 </body>
 </html>
 
