@@ -1,5 +1,5 @@
 <?php
-  include_once "acao.php";
+  include_once "novo/acao.php";
 
 ?>
 <!DOCTYPE html>
@@ -13,33 +13,57 @@
 
     <link rel="stylesheet" href="estilo.css">
     <title>Agenda de Contatos</title>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </head>
 <body>
     <h1>Meus Contatos</h1>
     <nav> <!-- menu -->
         <ul class="menu">
-            <li id="cadastrar" class="itemenu"><a href="contato.php">Cadastrar</a></li>
+            <li id="cadastrar" class="itemenu"><a href="novo/">Cadastrar</a></li>
             <li><a href="extras/sobre.html">Sobre</a></li>
             <li>Favoritos</li>
         </ul>
     </nav>
+    <section> <!-- pesquisa -->
+        <div class='row'>
+            <div class='col'>
+                <form action="" id='pesquisa'>
+                    <div class='row'>
+                        <div class='col-6'></div>
+                        <div class='col-4'>
+                            <input class='form-control' type="search" name='busca' id='busca'>
+                        </div>
+                        <div class='col-2'>
+                            <button class='btn btn-primary' type="submit">Filtrar</button>
+                        </div>
+                    </div>
+                </form>            
+            </div>
+        </div>
+    </section>
+    <br>
     <section> <!-- tabela de contatos-->
-        <table class="table lista-contatos">
-            <thead>
-                <tr>
-                    <th>Id</th><th>Nome</th><th>Sobrenome</th><th>Telefone</th><th>Alterar</th><th>Excluir</th>
-                </tr>
-            </thead>
-            <?php
-            $dados = carregaDoArquivoParaVetor();
-            foreach($dados as $contato){
-                $alterar = "<a href='contato.php?acao=editar&id=".$contato['id']."'>Alt</a>";
-                $excluir = "<a href='#' onclick=excluir('index.php?acao=excluir&id=".$contato['id']."')>Exc</a>";
-                echo "<tr><td>".$contato['id']."</td><td>".$contato['nome']."</td><td>".$contato['sobrenome']."</td><td>".$contato['telefone']."</td><td>".$alterar."</td><td>".$excluir."</td></tr>";
-            }
-            ?>
-        </table>
+        <div class='row'>
+            <div class='col' id='listagem'>
+                <table class="table lista-contatos" id='lista'>
+                <thead>
+                    <tr>
+                        <th>Id</th><th>Nome</th><th>Sobrenome</th><th>Telefone</th><th>Alterar</th><th>Excluir</th>
+                    </tr>
+                </thead>
+                <?php
+                $dados = carregaDoArquivoParaVetor();
+        
+                foreach($dados as $contato){
+                    $alterar = "<a href='novo/index.php?acao=editar&id=".$contato['id']."'>Alt</a>";
+                    $excluir = "<a href='#' onclick=excluir('index.php?acao=excluir&id=".$contato['id']."','".$contato['nome']."')>Exc</a>";
+                    echo "<tr><td>".$contato['id']."</td><td>".$contato['nome']."</td><td>".$contato['sobrenome']."</td><td>".$contato['telefone']."</td><td>".$alterar."</td><td>".$excluir."</td></tr>";
+                }
+                ?>
+                </table>
+            </div>
+        </div>
+       
     </section>
 </body>
 </html>
