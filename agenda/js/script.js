@@ -1,6 +1,6 @@
 window.onload = (function (){
-    document.getElementById('pesquisa').addEventListener('submit',function(ev){ // pega o evento de submit do formulário
-        ev.preventDefault(); // não envia o formulário
+    document.getElementById('busca').addEventListener('keyup',function(ev){ // pega o evento de submit do formulário
+        // ev.preventDefault(); // não envia o formulário
         carregaDados(document.getElementById('busca').value);
     })
 
