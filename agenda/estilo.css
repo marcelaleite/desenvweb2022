@@ -36,10 +36,7 @@
 }
 
 
-#cadastrar{
-    color:rgb(27, 104, 78);
-}
-#cadastrar a{
+.menu a{
     text-decoration: none;
 }
 

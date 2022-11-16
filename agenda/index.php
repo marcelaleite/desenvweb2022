@@ -15,12 +15,13 @@
     <title>Agenda de Contatos</title>
     <script src="js/script.js"></script>
 </head>
-<body>
+<body class='container'>
     <h1>Meus Contatos</h1>
     <nav> <!-- menu -->
         <ul class="menu">
-            <li id="cadastrar" class="itemenu"><a href="novo/">Cadastrar</a></li>
-            <li><a href="extras/sobre.html">Sobre</a></li>
+            <li id="cadastrar" class="itemenu"><a href="novo/">Cadastrar Contato</a></li>
+            <li id="cadUsuario" class="itemenu"><a href="usuario/cadUsuario.php">Cadastrar Usuário</a></li>
+            <li class="itemenu"><a href="extras/sobre.html">Sobre</a></li>
             <li>Favoritos</li>
         </ul>
     </nav>
