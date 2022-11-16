@@ -4,12 +4,9 @@
 $nome =  isset($_POST['nome'])?$_POST['nome']:"";
 $email =  isset($_POST['email'])?$_POST['email']:"";
 $senha =  isset($_POST['senha'])?$_POST['senha']:"";
-
 if ($nome != "" && $senha != "" && $email != ""){
-    // salvar no banco de dados
-    
-    include_once "../config/conf.inc.php";
-    
+    // salvar no banco de dados    
+    include_once "../config/conf.inc.php";    
     try{
         // cria a conexão com o banco de dados 
         $conexao = new PDO(MYSQL_DSN,DB_USER,DB_PASSWORD);
@@ -23,7 +20,7 @@ if ($nome != "" && $senha != "" && $email != ""){
         $stmt->bindValue(':senha',$senha);
         // executar a consulta
         if ($stmt->execute())
-            echo 'Dados inseridos com sucesso!';
+            header('location: cadUsuario.php');
         else
             echo 'Erro ao inserir dados';
     }catch(PDOException $e){ // se ocorrer algum erro na execuçao da conexão com o banco executará o bloco abaixo
