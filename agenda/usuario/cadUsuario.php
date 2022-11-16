@@ -1,3 +1,31 @@
+<?php
+include_once "../config/conf.inc.php";   
+
+$acao = isset($_GET['acao'])?$_GET['acao']:"";
+$id = isset($_GET['id'])?$_GET['id']:"";
+
+if ($acao == 'editar'){
+    // buscar dados do usuário que estamos editando
+    try{
+        // criaag    a conexão com o banco de dados 
+        $conexao = new PDO(MYSQL_DSN,DB_USER,DB_PASSWORD);
+        // montar consulta
+        $query = 'SELECT * FROM usuario WHERE id = :id' ;
+        // preparar consulta
+        $stmt = $conexao->prepare($query);
+        // vincular variaveis com a consult
+        $stmt->bindValue(':id',$id); 
+        $stmt->execute();
+        $usuario = $stmt->fetch(); 
+         
+    }catch(PDOException $e){ // se ocorrer algum erro na execuçao da conexão com o banco executará o bloco abaixo
+        print("Erro ao conectar com o banco de dados...<br>".$e->getMessage());
+        die();
+    }  
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,16 +38,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
  
     <title>Cadastro de Usuário</title>
+    <script>
+        function excluir(url){
+            if (confirm("Confirma a exclusão?"))
+                window.location.href = url;
+        }
+    </script>
 </head>
 <body>
     <h1>Cadastrar novo Usuário</h1>
     <form action="acao.php" method="post">
+        <input type="text" readonly name="id" id="id" value=<?php if(isset($usuario)) echo $usuario['id']; else echo 0;?>>
         <label for="name">Nome:</label>
-        <input type="text" name='nome' id='nome' placeholder="Informe seu nome completo...">
+        <input type="text" name='nome' id='nome' placeholder="Informe seu nome completo..."  value=<?php if(isset($usuario)) echo $usuario['nome'] ?> >
         <label for="email">E-mail:</label>
-        <input type="email" name='email' id='email' placeholder="usuario@mail.com...">
+        <input type="email" name='email' id='email' placeholder="usuario@mail.com..." value=<?php if(isset($usuario)) echo $usuario['email'] ?>>
         <label for="name">Senha:</label>
-        <input type="password" name='senha' id='senha' placeholder="Informe uma senha ...">
+        <input type="password" name='senha' id='senha' placeholder="Informe uma senha ..." value=<?php if(isset($usuario)) echo $usuario['senha'] ?>>
         <button type='submit' name='acao' value='salvar'>Enviar</button>
     </form>
     <hr>
@@ -32,8 +67,7 @@
         <table class='table'>
             <?php             
                 try{
-                    include_once "../config/conf.inc.php";   
-                    // cria a conexão com o banco de dados 
+                    // criaag    a conexão com o banco de dados 
                     $conexao = new PDO(MYSQL_DSN,DB_USER,DB_PASSWORD);
                     // montar consulta
                     $busca = isset($_GET['busca'])?$_GET['busca']:"";
@@ -45,12 +79,15 @@
                     // preparar consulta
                     $stmt = $conexao->prepare($query);
                     // vincular variaveis com a consulta
-                    $stmt->bindValue(':busca',$busca); 
+                    if ($busca != "")
+                        $stmt->bindValue(':busca',$busca); 
                     $stmt->execute();
                     $usuarios = $stmt->fetchAll();
-                    echo '<tr><th>Nome</th><th>E-mail</th><th>Senha</th></tr>';
+                    echo '<tr><th>Id</th><th>Nome</th><th>E-mail</th><th>Senha</th><th>Editar</th><th>Excluir</th></tr>';
                     foreach($usuarios as $usuario){
-                        echo '<tr><td>'.$usuario['nome'].'</td><td>'.$usuario['email'].'</td><td>'.$usuario['senha'].'</td></tr>';
+                        $editar = '<a href=cadUsuario.php?acao=editar&id='.$usuario['id'].'>Alt</a>';
+                        $excluir = "<a href='#' onclick=excluir('acao.php?acao=excluir&id={$usuario['id']}')>Excluir</a>";
+                        echo '<tr><td>'.$usuario['id'].'</td><td>'.$usuario['nome'].'</td><td>'.$usuario['email'].'</td><td>'.$usuario['senha'].'</td><td>'.$editar.'</td><td>'.$excluir.'</td></tr>';
                     }
                 }catch(PDOException $e){ // se ocorrer algum erro na execuçao da conexão com o banco executará o bloco abaixo
                     print("Erro ao conectar com o banco de dados...<br>".$e->getMessage());
