@@ -31,7 +31,7 @@
             for(usuario of dados){
                 editar = '<a href=cadUsuario.php?acao=editar&id='+usuario.id+'>Alt</a>';
                 excluir = "<a href='#' onclick=excluir('acao.php?acao=excluir&id="+usuario.id+"}')>Excluir</a>";
-                str += "<tr><td>"+usuario.id+"</td><td>"+usuario.nome+'</td><td>'+usuario.senha+'</td><td>'+usuario.senha+'</td><td>'+editar+'</td><td>'+excluir+'</td></tr>';
+                str += "<tr><td>"+usuario.id+"</td><td>"+usuario.nome+'</td><td>'+usuario.email+'</td><td>'+usuario.senha+'</td><td>'+editar+'</td><td>'+excluir+'</td></tr>';
             }
             document.getElementById('corpo').innerHTML = str;
         }
