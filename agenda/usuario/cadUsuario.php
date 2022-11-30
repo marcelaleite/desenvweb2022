@@ -41,14 +41,7 @@ if ($acao == 'editar'){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
  
     <title>Cadastro de Usuário</title>
-    <script>
-
-        // floreio -- para o usuário confirmar a exclusão
-        function excluir(url){
-            if (confirm("Confirma a exclusão?"))
-                window.location.href = url; //redireciona para o arquivo que irá efetuar a exclusão
-        }
-    </script>
+    <script src='script.js'></script>
 </head>
 <body class='container'>
     <h1>Cadastrar novo Usuário</h1>
@@ -87,11 +80,11 @@ if ($acao == 'editar'){
     <section class='row'>
         <!-- esse formulário é para permitir a pesquisa de um usuário cadastrado -->
         <div class='col'>
-            <form action="" method="get" id='pesquisa'> <!-- esse formulário submte para essa mesma página para recarregar com o resultado da busca -->
+            <form action="" method="get" id='fpesquisa'> <!-- esse formulário submte para essa mesma página para recarregar com o resultado da busca -->
                 <div class='row'>
                     <div class='col-8'><h2> Lista de Usuários cadastrados</h2></div>
                     <div class='col'><input class='form-control' type="search" name='busca' id='busca'></div>
-                    <div class='col'><button type="submit" class='btn btn-success' name='pesquisa'>Buscar</button></div>
+                    <div class='col'><button type="submit" class='btn btn-success' name='pesquisa' id='pesquisa'>Buscar</button></div>
                 </div>
             </form>
             <div class='row'>
@@ -107,38 +100,8 @@ if ($acao == 'editar'){
                             <th>Excluir</th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider">
-                    <?php             
-                        try{
-                            // cria  a conexão com o banco de dados 
-                            $conexao = new PDO(MYSQL_DSN,DB_USER,DB_PASSWORD);
-                            // pega o valor informado pelo usuário no formulário de pesquisa
-                            $busca = isset($_GET['busca'])?$_GET['busca']:"";
-                            // monta consulta
-                            $query = 'SELECT * FROM usuario';
-                            if ($busca != ""){ // se o usuário informou uma pesquisa
-                                $busca = '%'.$busca.'%'; // concatena o curiga * na pesquisa
-                                $query .= ' WHERE nome like :busca' ; // acrescenta a clausula where
-                            }
-                            // prepara consulta
-                            $stmt = $conexao->prepare($query);
-                            // vincular variaveis com a consulta
-                            if ($busca != "") // somente se o usuário informou uma busca
-                                $stmt->bindValue(':busca',$busca);
-                            // executa a consuta 
-                            $stmt->execute();
-                            // pega todos os registros retornados pelo banco
-                            $usuarios = $stmt->fetchAll();
-                            foreach($usuarios as $usuario){ // percorre o array com todos os usuários imprimindo as linhas da tabela
-                                $editar = '<a href=cadUsuario.php?acao=editar&id='.$usuario['id'].'>Alt</a>';
-                                $excluir = "<a href='#' onclick=excluir('acao.php?acao=excluir&id={$usuario['id']}')>Excluir</a>";
-                                echo '<tr><td>'.$usuario['id'].'</td><td>'.$usuario['nome'].'</td><td>'.$usuario['email'].'</td><td>'.$usuario['senha'].'</td><td>'.$editar.'</td><td>'.$excluir.'</td></tr>';
-                            }
-                        }catch(PDOException $e){ // se ocorrer algum erro na execuçao da conexão com o banco executará o bloco abaixo
-                            print("Erro ao conectar com o banco de dados...<br>".$e->getMessage());
-                            die();
-                        }           
-                    ?>  
+                    <tbody class="table-group-divider" id='corpo'>
+                    
                     </tbody>      
                 </table>
             </div>
